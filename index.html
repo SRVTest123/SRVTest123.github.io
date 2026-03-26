@@ -376,18 +376,31 @@
             </div>
         </section>
 
-        <!-- Events Section -->
+        <!-- Events Section (KALENDER NEU) -->
         <section id="events" class="page-section animate-fadeIn py-12 md:py-20">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
                     <h2 class="text-3xl font-extrabold text-green-900 flex items-center justify-center mb-4">
-                        <i data-lucide="calendar-days" class="mr-3 h-8 w-8 text-green-600"></i> SRV Termine 2026
+                        <i data-lucide="calendar-days" class="mr-3 h-8 w-8 text-green-600"></i> SRV Terminkalender
                     </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto">Alle Angaben unter Vorbehalt. Änderungen werden über die üblichen Kanäle kommuniziert.</p>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Hier findest du alle aktuellen Termine, Regatten und Wanderfahrten.
+                        Der Kalender wird regelmäßig vom Vorstand aktualisiert.
+                    </p>
                 </div>
-                
-                <div id="timeline" class="relative border-l-4 border-green-100 ml-4 md:ml-6 space-y-10">
-                    <!-- Events will be populated by JS -->
+
+                <!-- Google Calendar Embed -->
+                <div class="bg-white p-4 md:p-6 rounded-3xl shadow-lg border border-gray-100 relative overflow-hidden h-[500px] md:h-[700px]">
+                    <!-- HINWEIS: Hier unten bei 'src' den Link eures EIGENEN Google-Kalenders einfügen -->
+                    <iframe 
+                        src="https://calendar.google.com/calendar/embed?src=fxexe13%40gmail.com&ctz=Europe%2FBerlin" style="border: 0" width="800" height="600" frameborder="0" scrolling="no" 
+                        style="border: 0" 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        class="rounded-xl">
+                    </iframe>
                 </div>
             </div>
         </section>
@@ -633,44 +646,6 @@
             // Scrolle weich nach ganz oben
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Generiere die Termine (um HTML kompakt zu halten)
-        const termine = [
-            { date: "Ab sofort", title: "Winteraktivitäten", desc: "Bootsarbeiten, Steuermannskurs Theorie (mit ARC), DLRG und weitere Termine nach Ankündigung." },
-            { date: "16.03. - 20.03.", title: "Anfängerwerbung", desc: "Werbung für den SRV in den 6. Klassen." },
-            { date: "Mo, 23.03.", title: "Anmeldung Anfängerwochenende", desc: "Interessenten aus höheren Klassen können bei freien Kapazitäten hinzukommen." },
-            { date: "Fr, 17.04. - So, 19.04.", title: "Anfängerwochenende", desc: "Auf dem südlichen Rheinauensee. Grillen, Sonne und Booteputzen am Sonntag." },
-            { date: "Ab 06. April", title: "Ruderausbildung", desc: "Mittwochs und Freitags. Elternabend folgt." },
-            { date: "Fr, 01.05.", title: "50 Jahre SRV!", desc: "Großes Jubiläum! Feier im Bootshaus, genaue Infos folgen." },
-            { date: "Sa, 02.05.", title: "Eurega", desc: "Langstreckenregatta Neuwied-Bonn (45km) oder St. Goar-Bonn (100km)." },
-            { date: "13.05. - 17.05.", title: "Lahnwanderfahrt", desc: "Über Himmelfahrt. Von Diez nach Bonn (Zelte & Bootshaus Neuwied)." },
-            { date: "So, 24.05.", title: "Vogalonga (Venedig)", desc: "In und um Venedig (Ausnahme-Auslandstour). Teilnahme ab 16." },
-            { date: "Sommer", title: "Regatten & Wanderfahrt", desc: "Schülerregatta, Jtfo und Sommerwanderfahrt 2026." },
-            { date: "30.09. - 04.10.", title: "Herbstwanderfahrt", desc: "Termin 'Rund um den 3. Oktober'." },
-            { date: "So, 01.11.", title: "Allerheiligenfahrt", desc: "30km Tagestour von Bonn nach Köln." },
-            { date: "Fr, 27.11.", title: "Jahreshauptversammlung", desc: "Jahreshauptversammlung des Vereins." }
-        ];
-
-        const timelineContainer = document.getElementById('timeline');
-        let timelineHTML = '';
-        termine.forEach(termin => {
-            timelineHTML += `
-                <div class="relative pl-6 md:pl-10">
-                    <div class="absolute -left-[10px] top-1 h-4 w-4 rounded-full bg-green-600 ring-4 ring-white shadow-sm"></div>
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
-                            <h3 class="text-xl font-bold text-gray-900">${termin.title}</h3>
-                            <span class="inline-block bg-green-50 text-green-800 font-bold px-4 py-1.5 rounded-full text-sm mt-2 md:mt-0 whitespace-nowrap border border-green-100">${termin.date}</span>
-                        </div>
-                        <p class="text-gray-600 leading-relaxed">${termin.desc}</p>
-                    </div>
-                </div>
-            `;
-        });
-        timelineContainer.innerHTML = timelineHTML;
-
     </script>
 </body>
 </html>
-
-
