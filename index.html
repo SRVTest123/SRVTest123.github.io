@@ -107,12 +107,10 @@
         <section id="home" class="page-section active animate-fadeIn">
             <div class="relative pt-24 pb-16 md:pt-40 md:pb-32 overflow-hidden min-h-[85vh] flex items-center bg-gray-900">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1549474086-4b80bba3b5d2?q=80&w=2000&auto=format&fit=crop" alt="Rhein Panorama" class="w-full h-full object-cover" />
+                    <img src="rhein.jpg" alt="" class="w-full h-full object-cover saturate-150 contrast-125 sepia-[.20]" />
                     <div class="absolute inset-0 bg-green-950/80 mix-blend-multiply z-10"></div> 
                     <div class="absolute inset-0 z-20 flex items-center justify-center opacity-40 pointer-events-none">
-                        <span class="text-white text-3xl font-bold uppercase tracking-widest border-2 border-white/50 p-6 rounded-lg backdrop-blur-sm text-center">
-                            
-                        </span>
+                        
                     </div>
                 </div>
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30 w-full">
@@ -246,11 +244,8 @@
                 <div class="bg-gray-50 rounded-3xl p-8 md:p-12 border border-gray-200">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div class="order-2 lg:order-1 relative">
-                            <div class="w-full h-64 md:h-80 bg-white rounded-2xl flex items-center justify-center border border-gray-300 shadow-sm overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')]">
-                                <div class="text-center p-6 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-200 shadow-sm mx-4">
-                                    <i data-lucide="home" class="h-12 w-12 mx-auto mb-3 text-green-700"></i>
-                                    <p class="font-bold text-gray-800 text-lg"></p>
-                                </div>
+                            <div class="w-full h-64 md:h-80 bg-white rounded-2xl flex items-center justify-center border border-gray-300 shadow-sm overflow-hidden">
+                                <img src="bootshaus.jpg" alt="" class="w-full h-full object-cover" />
                             </div>
                         </div>
                         <div class="order-1 lg:order-2">
@@ -393,7 +388,7 @@
                 <div class="bg-white p-4 md:p-6 rounded-3xl shadow-lg border border-gray-100 relative overflow-hidden h-[500px] md:h-[700px]">
                     <!-- HINWEIS: Hier unten bei 'src' den Link eures EIGENEN Google-Kalenders einfügen -->
                     <iframe 
-                        src="https://calendar.google.com/calendar/embed?src=fxexe13%40gmail.com&ctz=Europe%2FBerlin" style="border: 0" width="800" height="600" frameborder="0" scrolling="no" 
+                        src="https://calendar.google.com/calendar/embed?src=de.german%23holiday%40group.v.calendar.google.com&ctz=Europe%2FBerlin&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&color=%2315803d" 
                         style="border: 0" 
                         width="100%" 
                         height="100%" 
@@ -442,24 +437,28 @@
                         </div>
                     </div>
 
-                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl relative">
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl relative flex flex-col justify-center">
                         <div class="absolute top-0 left-0 w-full h-2 bg-green-700 rounded-t-2xl"></div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Nachricht schreiben</h3>
-                        <form class="space-y-5" onsubmit="event.preventDefault(); alert('Danke! Dies ist eine Demoversion. Echte E-Mails bitte an SRV@kalkuhl.de senden.');">
-                            <div>
-                                <label for="name" class="block text-sm font-bold text-gray-700 mb-1">Name</label>
-                                <input type="text" id="name" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 p-3 bg-gray-50 border" placeholder="Dein Name" />
-                            </div>
-                            <div>
-                                <label for="klasse" class="block text-sm font-bold text-gray-700 mb-1">Klasse / Jahrgangsstufe</label>
-                                <input type="text" id="klasse" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 p-3 bg-gray-50 border" placeholder="z.B. 6a oder EF" />
-                            </div>
-                            <div>
-                                <label for="message" class="block text-sm font-bold text-gray-700 mb-1">Nachricht</label>
-                                <textarea id="message" rows="4" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 p-3 bg-gray-50 border" placeholder="Ich interessiere mich für das Anfängerwochenende..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-green-800 text-white px-4 py-3.5 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors shadow-md">Nachricht absenden</button>
-                        </form>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Der schnellste Weg zu uns</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed">
+                            Da wir unsere interne Vereinskommunikation, das Training und spontane Verabredungen komplett über <strong>WhatsApp</strong> organisieren, verzichten wir hier auf ein kompliziertes Kontaktformular.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <!-- E-Mail Button -->
+                            <a href="mailto:SRV@kalkuhl.de" class="w-full flex items-center justify-center bg-green-800 text-white px-4 py-4 rounded-xl font-bold text-lg hover:bg-green-700 transition-colors shadow-md transform hover:-translate-y-0.5">
+                                <i data-lucide="mail" class="mr-3 h-5 w-5"></i> E-Mail an den Vorstand
+                            </a>
+                            
+                            <!-- Instagram Button -->
+                            <a href="https://www.instagram.com/srv_am_ekg_bonn/" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center bg-gray-50 text-gray-800 border border-gray-200 px-4 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-sm transform hover:-translate-y-0.5">
+                                <i data-lucide="instagram" class="mr-3 h-5 w-5 text-pink-600"></i> @srv_am_ekg_bonn auf Instagram
+                            </a>
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 mt-8 text-center font-medium">
+                            Tipp: Wenn du nach der Werbung in der 6. Klasse zu uns stößt, fügen wir dich direkt unserer WhatsApp-Gruppe hinzu!
+                        </p>
                     </div>
                 </div>
             </div>
