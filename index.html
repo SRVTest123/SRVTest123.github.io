@@ -585,9 +585,9 @@
 
         // Seiten Navigation (Single Page App Verhalten)
 // Seiten Navigation (Single Page App Verhalten)
- function navigateTo(pageId) {
+function navigateTo(pageId) {
     // 1. Sofort nach oben springen
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // 2. Alle Abschnitte verstecken
     document.querySelectorAll('.page-section').forEach(section => {
@@ -596,9 +596,11 @@
     
     // Zeige die Ziel-Sektion
     const target = document.getElementById(pageId);
-    if (target) target.classList.add('active');
+    if (target) {
+        target.classList.add('active');
+    }
 
-    // 3. Desktop Navigation anpassen
+    // 3. Desktop Navigation Styling anpassen (Boot-Icon und Hintergrund)
     document.querySelectorAll('.nav-link').forEach(link => {
         const linkTarget = link.getAttribute('data-target');
         link.classList.remove('bg-green-900', 'shadow-inner', 'active-boat');
@@ -610,25 +612,20 @@
         }
     });
 
-    // 4. Mobile Menü schließen & Icon zurücksetzen
+    // 4. Mobile Menü schließen & Icon zurücksetzen, falls es offen war
     const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    
     if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-        toggleMenu(); 
+        mobileMenu.classList.add('hidden');
+        if (menuIcon) {
+            menuIcon.setAttribute('data-lucide', 'menu');
+        }
     }
 
+    // Icons neu rendern (für den Fall, dass das mobile Icon getauscht wurde)
     lucide.createIcons();
-}
-
-    // Menü schließen & hochscrollen
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu) mobileMenu.classList.add('hidden');
-    
-    const menuIcon = document.getElementById('menu-icon');
-    if (menuIcon) menuIcon.setAttribute('data-lucide', 'menu');
-    
-    lucide.createIcons();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+} // <--- Diese Klammer hat gefehlt oder war falsch platziert
         // --- NEU: News-Lade-Funktion ---
 async function loadNews() {
     const container = document.getElementById('news-container');
