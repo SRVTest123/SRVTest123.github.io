@@ -159,35 +159,12 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Jubiläumsjahr 2026: 50 Jahre SRV!</h3>
-                        <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">Frühjahr 2026</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">In diesem Jahr feiern wir unser 50-jähriges Bestehen! Tragt euch den 1. Mai schon einmal fest in den Kalender ein – genauere Infos zur geplanten Feier im Bootshaus folgen bald.</p>
-                    <div class="w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 overflow-hidden">
-                        <img 
-                            src="jubilaeum.jpg" 
-                            alt="50 Jahre Jubiläum Feier" 
-                            class="w-full h-full object-cover">
-                    </div> </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Anfängerwerbung & Anfängerwochenende</h3>
-                        <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">März 2026</span>
-                    </div>
-                    <p class="text-gray-600">Die Anfängerwerbung in den 6. Klassen ist in vollem Gange. Wer Lust hat, den Rudersport auszuprobieren, kann sich am 23. März für das Anfängerwochenende am Rheinauensee anmelden. Wir freuen uns auf euch!</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Laufende Winteraktivitäten</h3>
-                        <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">Winter/Frühjahr 2026</span>
-                    </div>
-                    <p class="text-gray-600">Unsere winterlichen Bootsarbeiten laufen auf Hochtouren, damit die Flotte rechtzeitig zur neuen Saison wieder in Topform ist. Denkt bitte auch an den theoretischen Steuermannskurs in Kooperation mit dem ARC.</p>
-                </div>
+  <div class="lg:col-span-2 space-y-8" id="news-container">
+    <div class="flex items-center justify-center py-10">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700"></div>
+        <p class="ml-3 text-gray-500">Neuigkeiten werden geladen...</p>
+    </div>
+</div>
             </div>
 
             <div class="space-y-8">
@@ -651,6 +628,53 @@
     lucide.createIcons();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+        // --- NEU: News-Lade-Funktion ---
+async function loadNews() {
+    const container = document.getElementById('news-container');
+    try {
+        // Versucht die news.json Datei zu laden
+        const response = await fetch('news.json');
+        
+        // Falls die Datei nicht gefunden wird oder ein Fehler auftritt
+        if (!response.ok) throw new Error('News-Datei nicht gefunden');
+        
+        const newsData = await response.json();
+        
+        // Container leeren (Lade-Animation entfernen)
+        container.innerHTML = '';
+
+        // Jede News aus der JSON-Datei verarbeiten
+        newsData.forEach(item => {
+            const card = `
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-fadeIn transition-all hover:shadow-md">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">${item.titel}</h3>
+                        <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">${item.datum}</span>
+                    </div>
+                    <p class="text-gray-600 mb-4 leading-relaxed">${item.text}</p>
+                    ${item.bild ? `
+                        <div class="w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 overflow-hidden">
+                            <img src="${item.bild}" alt="${item.titel}" class="w-full h-full object-cover">
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', card);
+        });
+
+    } catch (error) {
+        console.error("Fehler:", error);
+        container.innerHTML = `
+            <div class="p-6 bg-red-50 text-red-700 rounded-2xl border border-red-100">
+                <p class="font-bold">Hinweis:</p>
+                <p class="text-sm">Die Neuigkeiten konnten nicht geladen werden. Stelle sicher, dass die Datei <strong>news.json</strong> im selben Ordner liegt.</p>
+            </div>
+        `;
+    }
+}
+
+// Die Funktion sofort ausführen, wenn die Seite lädt
+loadNews();
     </script>
 </body>
 </html>
