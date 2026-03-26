@@ -584,48 +584,42 @@
         }
 
         // Seiten Navigation (Single Page App Verhalten)
-// Seiten Navigation (Single Page App Verhalten)
 function navigateTo(pageId) {
-    // 1. Sofort nach oben springen
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // 2. Alle Abschnitte verstecken
     document.querySelectorAll('.page-section').forEach(section => {
         section.classList.remove('active');
     });
     
-    // Zeige die Ziel-Sektion
     const target = document.getElementById(pageId);
-    if (target) {
-        target.classList.add('active');
-    }
+    if (target) target.classList.add('active');
 
-    // 3. Desktop Navigation Styling anpassen (Boot-Icon und Hintergrund)
+    // Desktop Nav Styling
     document.querySelectorAll('.nav-link').forEach(link => {
         const linkTarget = link.getAttribute('data-target');
         link.classList.remove('bg-green-900', 'shadow-inner', 'active-boat');
-        link.classList.add('hover:bg-green-700');
-
         if (linkTarget === pageId) {
             link.classList.add('bg-green-900', 'shadow-inner', 'active-boat');
-            link.classList.remove('hover:bg-green-700');
         }
     });
 
-    // 4. Mobile Menü schließen & Icon zurücksetzen, falls es offen war
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    
-    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-        if (menuIcon) {
-            menuIcon.setAttribute('data-lucide', 'menu');
+    // Mobile Nav Styling (Markierung im Menü)
+    document.querySelectorAll('.nav-link-mobile').forEach(link => {
+        const linkTarget = link.getAttribute('data-target');
+        link.classList.remove('bg-green-900', 'border-l-4', 'border-white');
+        if (linkTarget === pageId) {
+            link.classList.add('bg-green-900', 'border-l-4', 'border-white');
         }
+    });
+
+    // Menü schließen
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        toggleMenu(); 
     }
 
-    // Icons neu rendern (für den Fall, dass das mobile Icon getauscht wurde)
     lucide.createIcons();
-} // <--- Diese Klammer hat gefehlt oder war falsch platziert
+}
         // --- NEU: News-Lade-Funktion ---
 async function loadNews() {
     const container = document.getElementById('news-container');
