@@ -6,55 +6,49 @@
     <title>SRV am Ernst-Kalkuhl-Gymnasium</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
-
     <link rel="icon" type="image/png" href="srv_logo.png">
     
     <style>
-       .animate-fadeIn { animation: fadeIn 0.4s ease-out; }
-  @keyframes fadeIn { 
-      from { opacity: 0; transform: translateY(10px); } 
-      to { opacity: 1; transform: translateY(0); } 
-  }
-  .page-section { display: none; }
-  .page-section.active { display: block; }
+        .animate-fadeIn { 
+            animation: fadeIn 0.4s ease-out; 
+        }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .nav-link { position: relative; transition: all 0.3s; }
+        
+        .active-boat::after {
+            content: "";
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 15px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1'/%3E%3Cpath d='M4 11l1-2h14l1 2'/%3E%3Cpath d='M4 11c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6H4z'/%3E%3Cpath d='M9 11V9'/%3E%3Cpath d='M15 11V9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
+            animation: boatWiggle 2s ease-in-out infinite;
+        }
 
-  /* NEU: Das Ruderboot-Styling */
-  .nav-link { position: relative; transition: all 0.3s; }
-  
- /* Das Boot mit Riemen (Rudern) für die Desktop-Ansicht */
- .active-boat::after {
-      content: "";
-      position: absolute;
-      bottom: -12px; /* Etwas tiefer, damit es unter dem grünen Kasten herguckt */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 15px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1'/%3E%3Cpath d='M4 11l1-2h14l1 2'/%3E%3Cpath d='M4 11c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6H4z'/%3E%3Cpath d='M9 11V9'/%3E%3Cpath d='M15 11V9'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: contain;
-      animation: boatWiggle 2s ease-in-out infinite;
-  }
-  
-
-  @keyframes boatWiggle {
-      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
-      50% { transform: translateX(-50%) translateY(-3px) rotate(2deg); }
-  }
-      .confetti {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    font-size: 2rem;
-    will-change: transform;
-}
-
-@keyframes celebrate {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
+        @keyframes boatWiggle {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            50% { transform: translateX(-50%) translateY(-3px) rotate(2deg); }
+        }
+        
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 2rem;
+            will-change: transform;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-white font-sans text-gray-800 selection:bg-green-200">
@@ -80,7 +74,7 @@
                 </div>
                 
                 <div class="hidden lg:flex space-x-2 items-center">
-                    <button onclick="navigateTo('home')" data-target="home" class="nav-link px-3 py-2 rounded-md transition-colors font-medium bg-green-900 text-white shadow-inner">Startseite</button>
+                    <button onclick="navigateTo('home')" data-target="home" class="nav-link active-boat px-3 py-2 rounded-md transition-colors font-medium bg-green-900 text-white shadow-inner">Startseite</button>
                     <button onclick="navigateTo('aktuelles')" data-target="aktuelles" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Aktuelles</button>
                     <button onclick="navigateTo('about')" data-target="about" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Bootshaus</button>
                     <button onclick="navigateTo('vorstand')" data-target="vorstand" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Vorstand</button>
@@ -135,14 +129,11 @@
                 <div class="absolute inset-0 z-0">
                     <img src="rhein.jpg" alt="" class="w-full h-full object-cover saturate-150 contrast-125 sepia-[.20]" />
                     <div class="absolute inset-0 bg-green-950/80 mix-blend-multiply z-10"></div> 
-                    <div class="absolute inset-0 z-20 flex items-center justify-center opacity-40 pointer-events-none">
-                        
-                    </div>
                 </div>
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30 w-full">
-                        <div onclick="srvCelebration(event)" class="cursor-pointer hover:scale-105 active:scale-95 transition-transform inline-block mb-6 px-5 py-2 bg-gradient-to-r from-green-600/60 to-green-400/60 text-white border border-green-300/50 rounded-full font-bold text-sm tracking-widest shadow-lg backdrop-blur-md uppercase">
-     Jubiläumsjahr 2026: 50 Jahre SRV 🥳
-</div>
+                    <div onclick="srvCelebration(event)" class="cursor-pointer hover:scale-105 active:scale-95 transition-transform inline-block mb-6 px-5 py-2 bg-gradient-to-r from-green-600/60 to-green-400/60 text-white border border-green-300/50 rounded-full font-bold text-sm tracking-widest shadow-lg backdrop-blur-md uppercase">
+                        Jubiläumsjahr 2026: 50 Jahre SRV 🥳
+                    </div>
                     <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-6 drop-shadow-xl">
                         Rudersport am <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-200">EKG</span>
                     </h1>
@@ -162,53 +153,52 @@
         </section>
 
         <section id="aktuelles" class="page-section animate-fadeIn py-12 md:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-green-900 mb-4 flex items-center justify-center">
-                <i data-lucide="message-square" class="mr-3 h-8 w-8 text-green-600"></i> Aktuelles
-            </h2>
-            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                Neuigkeiten, anstehende Termine und Infos aus dem Verein.
-            </p>
-        </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-green-900 mb-4 flex items-center justify-center">
+                        <i data-lucide="message-square" class="mr-3 h-8 w-8 text-green-600"></i> Aktuelles
+                    </h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                        Neuigkeiten, anstehende Termine und Infos aus dem Verein.
+                    </p>
+                </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <div class="lg:col-span-2 space-y-8" id="news-container">
-                <div class="flex items-center justify-center py-10">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700"></div>
-                    <p class="ml-3 text-gray-500">Neuigkeiten werden geladen...</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-8" id="news-container">
+                        <div class="flex items-center justify-center py-10">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700"></div>
+                            <p class="ml-3 text-gray-500">Neuigkeiten werden geladen...</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                                <i data-lucide="book-open" class="mr-2 h-5 w-5 text-green-600"></i> SRV-Aktuell Magazin
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4">Einmal im Jahr erscheint unsere Vereinspublikation mit Fahrtenberichten und Neuigkeiten.</p>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="flex items-center text-green-700 hover:text-green-900 font-medium group text-sm">
+                                        <i data-lucide="download" class="mr-2 h-4 w-4 text-gray-400 group-hover:text-green-600"></i> Ausgabe 2024
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="flex items-center text-green-700 hover:text-green-900 font-medium group text-sm">
+                                        <i data-lucide="download" class="mr-2 h-4 w-4 text-gray-400 group-hover:text-green-600"></i> Ausgabe 2023
+                                    </a>
+                                </li>
+                                <li class="pt-2 mt-2 border-t border-gray-100">
+                                    <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="text-xs text-gray-500 hover:text-green-700 flex items-center">
+                                        Alle Ausgaben auf Kalkuhl.de <i data-lucide="external-link" class="ml-1 h-3 w-3"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="space-y-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                        <i data-lucide="book-open" class="mr-2 h-5 w-5 text-green-600"></i> SRV-Aktuell Magazin
-                    </h3>
-                    <p class="text-sm text-gray-600 mb-4">Einmal im Jahr erscheint unsere Vereinspublikation mit Fahrtenberichten und Neuigkeiten.</p>
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="flex items-center text-green-700 hover:text-green-900 font-medium group text-sm">
-                                <i data-lucide="download" class="mr-2 h-4 w-4 text-gray-400 group-hover:text-green-600"></i> Ausgabe 2024
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="flex items-center text-green-700 hover:text-green-900 font-medium group text-sm">
-                                <i data-lucide="download" class="mr-2 h-4 w-4 text-gray-400 group-hover:text-green-600"></i> Ausgabe 2023
-                            </a>
-                        </li>
-                        <li class="pt-2 mt-2 border-t border-gray-100">
-                            <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="text-xs text-gray-500 hover:text-green-700 flex items-center">
-                                Alle Ausgaben auf Kalkuhl.de <i data-lucide="external-link" class="ml-1 h-3 w-3"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            </div>
-    </div>
-</section>
+        </section>
 
         <section id="about" class="page-section animate-fadeIn py-12 md:py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -273,7 +263,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    
                     <div class="bg-green-50 p-8 rounded-3xl shadow-sm border border-green-200 flex flex-col items-center text-center relative overflow-hidden transition-all hover:shadow-md hover:border-green-400 hover:-translate-y-1">
                         <div class="w-16 h-16 bg-green-800 text-white rounded-2xl flex items-center justify-center mb-5 transform -rotate-2 shadow-md">
                             <i data-lucide="award" class="h-8 w-8"></i>
@@ -336,49 +325,50 @@
                         <p class="text-green-300 font-bold text-lg mb-3">Christopher Dahm</p>
                         <p class="text-green-100/80 text-sm leading-relaxed">Sportlehrer des EKG, Berater des Vorstands und Bindeglied zur Schule.</p>
                     </div>
-
                 </div>
             </div>
         </section>
+
         <section id="fleet" class="page-section animate-fadeIn relative overflow-hidden py-20 md:py-32 bg-gray-900">
-    <div class="absolute inset-0 z-0">
-        <img src="flotte_bg.jpg" alt="" class="w-full h-full object-cover opacity-50 saturate-100" />
-        <div class="absolute inset-0 bg-gradient-to-b from-green-950/90 via-green-950/80 to-gray-900 z-10"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-extrabold mb-4 text-white drop-shadow-md">Unsere Flotte</h2>
-            <p class="text-green-100/80 text-lg max-w-2xl mx-auto leading-relaxed">
-                In unserem Bootshaus beherbergen wir eine vielfältige Auswahl an Ruderbooten, von robusten Gig-Booten bis zu unseren schnellen Einer-Skiffs.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl relative overflow-hidden text-white transition-transform hover:-translate-y-2">
-                <div class="absolute top-0 right-0 bg-yellow-500 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg shadow-sm">Historisch</div>
-                <h3 class="text-2xl font-bold mb-3 mt-2">Die "Oberkassel"</h3>
-                <p class="text-green-100/70 text-sm mb-6 leading-relaxed">Unser erstes eigenes Boot, das 1978 angeschafft wurde. Ein klassisches Gig-Boot und bis heute fahrbereit!</p>
+            <div class="absolute inset-0 z-0">
+                <img src="flotte_bg.jpg" alt="" class="w-full h-full object-cover opacity-50 saturate-100" />
+                <div class="absolute inset-0 bg-gradient-to-b from-green-950/90 via-green-950/80 to-gray-900 z-10"></div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl flex flex-col justify-between text-white transition-transform hover:-translate-y-2">
-                <div>
-                    <h3 class="text-2xl font-bold mb-3">Gig-Boote</h3>
-                    <p class="text-green-100/70 text-sm mb-6 leading-relaxed">Robust und sicher. Perfekt für die Ausbildung, Wanderfahrten auf deutschen Flüssen und Touren auf dem Rhein.</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 text-white drop-shadow-md">Unsere Flotte</h2>
+                    <p class="text-green-100/80 text-lg max-w-2xl mx-auto leading-relaxed">
+                        In unserem Bootshaus beherbergen wir eine vielfältige Auswahl an Ruderbooten, von robusten Gig-Booten bis zu unseren schnellen Einer-Skiffs.
+                    </p>
                 </div>
-                <div class="text-green-400 font-bold text-sm bg-green-950/50 inline-block px-4 py-2 rounded self-start">2x / 3x / 4x</div>
-            </div>
 
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl flex flex-col justify-between text-white transition-transform hover:-translate-y-2">
-                <div>
-                    <h3 class="text-2xl font-bold mb-3">Skiffs & Einer</h3>
-                    <p class="text-green-100/70 text-sm mb-6 leading-relaxed">Für individuelle Technikschulung und Skiff-Wochenenden am südlichen Rheinauensee.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl relative overflow-hidden text-white transition-transform hover:-translate-y-2">
+                        <div class="absolute top-0 right-0 bg-yellow-500 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg shadow-sm">Historisch</div>
+                        <h3 class="text-2xl font-bold mb-3 mt-2">Die "Oberkassel"</h3>
+                        <p class="text-green-100/70 text-sm mb-6 leading-relaxed">Unser erstes eigenes Boot, das 1978 angeschafft wurde. Ein klassisches Gig-Boot und bis heute fahrbereit!</p>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl flex flex-col justify-between text-white transition-transform hover:-translate-y-2">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3">Gig-Boote</h3>
+                            <p class="text-green-100/70 text-sm mb-6 leading-relaxed">Robust und sicher. Perfekt für die Ausbildung, Wanderfahrten auf deutschen Flüssen und Touren auf dem Rhein.</p>
+                        </div>
+                        <div class="text-green-400 font-bold text-sm bg-green-950/50 inline-block px-4 py-2 rounded self-start">2x / 3x / 4x</div>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl flex flex-col justify-between text-white transition-transform hover:-translate-y-2">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3">Skiffs & Einer</h3>
+                            <p class="text-green-100/70 text-sm mb-6 leading-relaxed">Für individuelle Technikschulung und Skiff-Wochenenden am südlichen Rheinauensee.</p>
+                        </div>
+                        <div class="text-green-400 font-bold text-sm bg-green-950/50 inline-block px-4 py-2 rounded self-start">1x</div>
+                    </div>
                 </div>
-                <div class="text-green-400 font-bold text-sm bg-green-950/50 inline-block px-4 py-2 rounded self-start">1x</div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
+
         <section id="events" class="page-section animate-fadeIn py-12 md:py-20">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -393,14 +383,13 @@
 
                 <div class="bg-white p-4 md:p-6 rounded-3xl shadow-lg border border-gray-100 relative overflow-hidden h-[500px] md:h-[700px]">
                     <iframe 
-    src="https://calendar.google.com/calendar/embed?src=fxexe13%40gmail.com&ctz=Europe%2FBerlin&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&color=%2315803d&mode=AGENDA" 
-    style="border: 0" 
-    width="100%" 
-    height="100%" 
-    frameborder="0" 
-    scrolling="no" 
-    class="rounded-xl">
-         
+                        src="https://calendar.google.com/calendar/embed?src=fxexe13%40gmail.com&ctz=Europe%2FBerlin&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&color=%2315803d&mode=AGENDA" 
+                        style="border: 0" 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        class="rounded-xl">
                     </iframe>
                 </div>
             </div>
@@ -479,7 +468,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
                         <a href="#" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-green-400 transition-all group flex flex-col items-center text-center">
                             <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <i data-lucide="image" class="h-7 w-7"></i>
@@ -503,7 +491,6 @@
                             <h3 class="font-bold text-gray-900 text-lg mb-1">Vorstands-Laufwerk</h3>
                             <p class="text-sm text-gray-500">Nur für Vorstandsmitglieder (Weiteres Passwort erforderlich).</p>
                         </a>
-
                     </div>
                 </div>
             </div>
@@ -546,14 +533,14 @@
     </footer>
 
     <script>
-        // Init Icons
-        lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Intern-Bereich Passwort Status
         let isUnlocked = false;
 
-        // Menü Toggeln
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            document.getElementById('year').textContent = new Date().getFullYear();
+            loadNews();
+        });
+
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
             const icon = document.getElementById('menu-icon');
@@ -568,7 +555,6 @@
             lucide.createIcons();
         }
 
-        // Passwort Check für den internen Bereich
         function checkPasswordAndNavigate() {
             if (!isUnlocked) {
                 const pwd = prompt("Bitte Vereins-Passwort eingeben:");
@@ -576,131 +562,116 @@
                     isUnlocked = true;
                     alert("Passwort korrekt! Der interne Bereich ist jetzt freigeschaltet.");
                     navigateTo('intern');
-                } else if (pwd !== null) { // null bedeutet Abbrechen gedrückt
+                } else if (pwd !== null) {
                     alert("Falsches Passwort!");
                 }
             } else {
-                // Wenn schon entsperrt, einfach direkt hin navigieren
                 navigateTo('intern');
             }
         }
 
-        // Seiten Navigation (Single Page App Verhalten)
-function navigateTo(pageId) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+        function navigateTo(pageId) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    document.querySelectorAll('.page-section').forEach(section => {
-        section.classList.remove('active');
-    });
-    
-    const target = document.getElementById(pageId);
-    if (target) target.classList.add('active');
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const target = document.getElementById(pageId);
+            if (target) target.classList.add('active');
 
-    // Desktop Nav Styling
-    document.querySelectorAll('.nav-link').forEach(link => {
-        const linkTarget = link.getAttribute('data-target');
-        link.classList.remove('bg-green-900', 'shadow-inner', 'active-boat');
-        if (linkTarget === pageId) {
-            link.classList.add('bg-green-900', 'shadow-inner', 'active-boat');
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const linkTarget = link.getAttribute('data-target');
+                link.classList.remove('bg-green-900', 'shadow-inner', 'active-boat');
+                if (linkTarget === pageId) {
+                    link.classList.add('bg-green-900', 'shadow-inner', 'active-boat');
+                }
+            });
+
+            document.querySelectorAll('.nav-link-mobile').forEach(link => {
+                const linkTarget = link.getAttribute('data-target');
+                link.classList.remove('bg-green-900', 'border-l-4', 'border-white');
+                if (linkTarget === pageId) {
+                    link.classList.add('bg-green-900', 'border-l-4', 'border-white');
+                }
+            });
+
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                toggleMenu(); 
+            }
+
+            lucide.createIcons();
         }
-    });
 
-    // Mobile Nav Styling (Markierung im Menü)
-    document.querySelectorAll('.nav-link-mobile').forEach(link => {
-        const linkTarget = link.getAttribute('data-target');
-        link.classList.remove('bg-green-900', 'border-l-4', 'border-white');
-        if (linkTarget === pageId) {
-            link.classList.add('bg-green-900', 'border-l-4', 'border-white');
-        }
-    });
+        async function loadNews() {
+            const container = document.getElementById('news-container');
+            if (!container) return;
 
-    // Menü schließen
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-        toggleMenu(); 
-    }
+            try {
+                const response = await fetch('news.json');
+                if (!response.ok) throw new Error('News-Datei nicht gefunden');
+                
+                const newsData = await response.json();
+                container.innerHTML = '';
 
-    lucide.createIcons();
-}
-        // --- NEU: News-Lade-Funktion ---
-async function loadNews() {
-    const container = document.getElementById('news-container');
-    try {
-        // Versucht die news.json Datei zu laden
-        const response = await fetch('news.json');
-        
-        // Falls die Datei nicht gefunden wird oder ein Fehler auftritt
-        if (!response.ok) throw new Error('News-Datei nicht gefunden');
-        
-        const newsData = await response.json();
-        
-        // Container leeren (Lade-Animation entfernen)
-        container.innerHTML = '';
-
-        // Jede News aus der JSON-Datei verarbeiten
-        newsData.forEach(item => {
-            const card = `
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-fadeIn transition-all hover:shadow-md">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">${item.titel}</h3>
-                        <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">${item.datum}</span>
-                    </div>
-                    <p class="text-gray-600 mb-4 leading-relaxed">${item.text}</p>
-                    ${item.bild ? `
-                        <div class="w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 overflow-hidden">
-                            <img src="${item.bild}" alt="${item.titel}" class="w-full h-full object-cover">
+                newsData.forEach(item => {
+                    const card = `
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 animate-fadeIn transition-all hover:shadow-md">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">${item.titel}</h3>
+                                <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">${item.datum}</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 leading-relaxed">${item.text}</p>
+                            ${item.bild ? `
+                                <div class="w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 overflow-hidden">
+                                    <img src="${item.bild}" alt="${item.titel}" class="w-full h-full object-cover">
+                                </div>
+                            ` : ''}
                         </div>
-                    ` : ''}
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', card);
-        });
+                    `;
+                    container.insertAdjacentHTML('beforeend', card);
+                });
 
-    } catch (error) {
-        console.error("Fehler:", error);
-        container.innerHTML = `
-            <div class="p-6 bg-red-50 text-red-700 rounded-2xl border border-red-100">
-                <p class="font-bold">Hinweis:</p>
-                <p class="text-sm">Die Neuigkeiten konnten nicht geladen werden. Stelle sicher, dass die Datei <strong>news.json</strong> im selben Ordner liegt.</p>
-            </div>
-        `;
-    }
-}
+            } catch (error) {
+                console.error("Fehler:", error);
+                container.innerHTML = `
+                    <div class="p-6 bg-red-50 text-red-700 rounded-2xl border border-red-100">
+                        <p class="font-bold">Hinweis:</p>
+                        <p class="text-sm">Die Neuigkeiten konnten nicht geladen werden. Stelle sicher, dass die Datei <strong>news.json</strong> im selben Ordner liegt.</p>
+                    </div>
+                `;
+            }
+        }
 
-// Die Funktion sofort ausführen, wenn die Seite lädt
-loadNews();
-function srvCelebration(event) {
-    const symbols = ['🚣', '🚣‍♂️', '✨', '🎉', '🎊', '🟢', '⚪', '🏆', '🚣‍♀️'];
-    const count = 75; // Mehr Partikel für größeren Effekt
-    
-    for (let i = 0; i < count; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-        
-        // Zufällige horizontale Startposition
-        const startX = Math.random() * window.innerWidth;
-        confetti.style.left = startX + 'px';
-        confetti.style.top = '-50px'; // Startet oberhalb des Bildschirms
-        
-        document.body.appendChild(confetti);
-        
-        // Werte für den Fall berechnen
-        const duration = 3 + Math.random() * 4; // Fällt 3-7 Sekunden
-        const drift = (Math.random() - 0.5) * 400; // Driftet links/rechts
-        const rotation = Math.random() * 1000; // Dreht sich wild
-        
-        // Der Trick: Ein kurzes Timeout, damit der Browser die Startposition erkennt
-        setTimeout(() => {
-            confetti.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.5, 0.3, 1), opacity ${duration}s ease-in`;
-            confetti.style.transform = `translate(${drift}px, ${window.innerHeight + 100}px) rotate(${rotation}deg)`;
-            confetti.style.opacity = '0';
-        }, 10);
+        function srvCelebration(event) {
+            const symbols = ['🚣', '🚣‍♂️', '✨', '🎉', '🎊', '🟢', '⚪', '🏆', '🚣‍♀️'];
+            const count = 75; 
+            
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                const startX = Math.random() * window.innerWidth;
+                confetti.style.left = startX + 'px';
+                confetti.style.top = '-50px'; 
+                
+                document.body.appendChild(confetti);
+                
+                const duration = 3 + Math.random() * 4; 
+                const drift = (Math.random() - 0.5) * 400; 
+                const rotation = Math.random() * 1000; 
+                
+                setTimeout(() => {
+                    confetti.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.5, 0.3, 1), opacity ${duration}s ease-in`;
+                    confetti.style.transform = `translate(${drift}px, ${window.innerHeight + 100}px) rotate(${rotation}deg)`;
+                    confetti.style.opacity = '0';
+                }, 10);
 
-        // Nach der Animation löschen
-        setTimeout(() => confetti.remove(), duration * 1000);
-    }
-}
+                setTimeout(() => confetti.remove(), duration * 1000);
+            }
+        }
     </script>
 </body>
 </html>
