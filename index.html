@@ -585,51 +585,39 @@
 
         // Seiten Navigation (Single Page App Verhalten)
 // Seiten Navigation (Single Page App Verhalten)
-      function navigateTo(pageId) {
-    // 1. Alle Abschnitte verstecken
+ function navigateTo(pageId) {
+    // 1. Sofort nach oben springen
+    window.scrollTo(0, 0);
+
+    // 2. Alle Abschnitte verstecken
     document.querySelectorAll('.page-section').forEach(section => {
         section.classList.remove('active');
     });
     
     // Zeige die Ziel-Sektion
-    document.getElementById(pageId).classList.add('active');
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
 
-    // 2. Desktop Navigation anpassen (Grün + Boot)
+    // 3. Desktop Navigation anpassen
     document.querySelectorAll('.nav-link').forEach(link => {
-        const target = link.getAttribute('data-target');
-        
-        // Zuerst: Alles auf Standard zurücksetzen (Hintergrund weg, Boot weg)
-        link.classList.remove('bg-green-900', 'text-white', 'shadow-inner', 'active-boat');
-        link.classList.add('hover:bg-green-700', 'text-white');
+        const linkTarget = link.getAttribute('data-target');
+        link.classList.remove('bg-green-900', 'shadow-inner', 'active-boat');
+        link.classList.add('hover:bg-green-700');
 
-        // Wenn dieser Link der ausgewählte ist:
-        if (target === pageId) {
-            // Hier kommt das Grün wieder:
-            link.classList.add('bg-green-900', 'shadow-inner'); 
-            // Hier kommt das Schiff dazu:
-            link.classList.add('active-boat');
-            // Hover-Effekt für den aktiven Link ausmachen
+        if (linkTarget === pageId) {
+            link.classList.add('bg-green-900', 'shadow-inner', 'active-boat');
             link.classList.remove('hover:bg-green-700');
         }
     });
 
-    // 3. Mobile Navigation anpassen
-    document.querySelectorAll('.nav-link-mobile').forEach(link => {
-        const target = link.getAttribute('data-target');
-        
-        // Alles zurücksetzen
-        link.classList.remove('bg-green-900', 'text-white', 'border-l-4', 'border-white');
-        let cleanText = link.innerText.replace('🚣 ', '');
+    // 4. Mobile Menü schließen & Icon zurücksetzen
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        toggleMenu(); 
+    }
 
-        if (target === pageId) {
-            // Aktiver Style: Dunkelgrün, weißer Rand und Boot-Emoji
-            link.innerText = '🚣 ' + cleanText;
-            link.classList.add('bg-green-900', 'text-white', 'border-l-4', 'border-white', 'font-bold');
-        } else {
-            link.innerText = cleanText;
-            link.classList.add('text-green-100');
-        }
-    });
+    lucide.createIcons();
+}
 
     // Menü schließen & hochscrollen
     const mobileMenu = document.getElementById('mobile-menu');
