@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": 3,
     "titel": "Jubiläumsjahr 2026: 50 Jahre SRV!",
     "datum": "Frühjahr 2026",
     "text": "In diesem Jahr feiern wir unser 50-jähriges Bestehen! Tragt euch den 1. Mai schon einmal fest in den Kalender ein.",
@@ -15,10 +15,10 @@
   },
 
     {
-    "id": 3,
-    "titel": "",
-    "datum": "",
-    "text": "",
+    "id": 1,
+    "titel": "Endlich über 10 Grad!",
+    "datum": "März 2026",
+    "text": "Die Wassertemperatur vom Rhein ist erstmals auf über 10 Grad gestiegen! Ab sofort beginnen die Rudertermine wieder, jede Woche am Mittwoch und Freitag.",
     "bild": ""
   }
 ]
