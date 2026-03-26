@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRV am Ernst-Kalkuhl-Gymnasium</title>
+    
+    <!-- Tailwind CSS (für das Design) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons (für die Symbole) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        /* Verstecke Abschnitte standardmäßig, die nicht 'home' sind */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-white font-sans text-gray-800 selection:bg-green-200">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 w-full z-50 bg-green-800 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer group" onclick="navigateTo('home')">
+                    <svg viewBox="0 0 400 300" class="h-16 w-24 mr-3 drop-shadow-sm group-hover:scale-105 transition-transform" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.6" flood-color="#000000" />
+                            </filter>
+                        </defs>
+                        <line x1="100" y1="240" x2="280" y2="60" stroke="#111" stroke-width="12" stroke-linecap="round" filter="url(#shadow)" />
+                        <path d="M 275 65 L 305 20 Q 330 30 335 55 L 290 95 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" filter="url(#shadow)" />
+                        <line x1="300" y1="240" x2="120" y2="60" stroke="#111" stroke-width="12" stroke-linecap="round" filter="url(#shadow)" />
+                        <path d="M 125 65 L 95 20 Q 70 30 65 55 L 110 95 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" filter="url(#shadow)" />
+                        <text x="200" y="170" font-family="'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif" font-size="130" fill="#ffffff" text-anchor="middle" filter="url(#shadow)">SRV</text>
+                        <text x="200" y="240" font-family="'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif" font-size="26" fill="#ffffff" text-anchor="middle" filter="url(#shadow)">ERNST-KALKUHL GYMNASIUM</text>
+                        <text x="200" y="275" font-family="'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif" font-size="28" fill="#ffffff" text-anchor="middle" filter="url(#shadow)">BONN</text>
+                    </svg>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex space-x-2 items-center">
+                    <button onclick="navigateTo('home')" data-target="home" class="nav-link px-3 py-2 rounded-md transition-colors font-medium bg-green-900 text-white shadow-inner">Startseite</button>
+                    <button onclick="navigateTo('aktuelles')" data-target="aktuelles" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Aktuelles</button>
+                    <button onclick="navigateTo('about')" data-target="about" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Bootshaus</button>
+                    <button onclick="navigateTo('vorstand')" data-target="vorstand" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Vorstand</button>
+                    <button onclick="navigateTo('fleet')" data-target="fleet" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Flotte</button>
+                    <button onclick="navigateTo('events')" data-target="events" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Termine</button>
+                    <button onclick="navigateTo('contact')" data-target="contact" class="nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white">Kontakt</button>
+                    
+                    <div class="h-6 w-px bg-green-600 mx-2"></div>
+                    
+                    <!-- Interner Bereich Button -->
+                    <button onclick="checkPasswordAndNavigate()" data-target="intern" class="nav-link px-3 py-2 rounded-md transition-colors font-bold text-green-200 hover:bg-green-700 hover:text-white flex items-center">
+                        <i data-lucide="lock" class="h-4 w-4 mr-1.5"></i> Intern
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center">
+                    <button onclick="toggleMenu()" class="text-white hover:bg-green-700 rounded-md focus:outline-none p-2">
+                        <i data-lucide="menu" id="menu-icon" class="h-8 w-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-green-800 shadow-xl border-t border-green-700 max-h-[80vh] overflow-y-auto">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <button onclick="navigateTo('home')" data-target="home" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors bg-green-900 text-white border-l-4 border-white">Startseite</button>
+                <button onclick="navigateTo('aktuelles')" data-target="aktuelles" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100">Aktuelles</button>
+                <button onclick="navigateTo('about')" data-target="about" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100">Bootshaus</button>
+                <button onclick="navigateTo('vorstand')" data-target="vorstand" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100">Vorstand</button>
+                <button onclick="navigateTo('fleet')" data-target="fleet" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100">Flotte</button>
+                <button onclick="navigateTo('events')" data-target="events" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100">Termine</button>
+                <button onclick="navigateTo('contact')" data-target="contact" class="nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100">Kontakt</button>
+                
+                <div class="h-px w-full bg-green-700 my-2"></div>
+                
+                <!-- Interner Bereich Button Mobile -->
+                <button onclick="checkPasswordAndNavigate()" data-target="intern" class="nav-link-mobile w-full text-left px-4 py-3 rounded-md text-base font-bold transition-colors text-green-200 hover:bg-green-700 hover:text-white flex items-center">
+                    <i data-lucide="lock" class="h-4 w-4 mr-2"></i> Intern
+                </button>
+                
+                <div class="pt-4 mt-2 border-t border-green-700">
+                    <a href="https://kalkuhl.de/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full bg-white text-green-800 px-4 py-3 rounded-md font-bold text-base shadow-sm">
+                        Zur Kalkuhl Homepage <i data-lucide="external-link" class="ml-2 h-5 w-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow bg-gray-50/50">
+
+        <!-- Home Section -->
+        <section id="home" class="page-section active animate-fadeIn">
+            <div class="relative pt-24 pb-16 md:pt-40 md:pb-32 overflow-hidden min-h-[85vh] flex items-center bg-gray-900">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1549474086-4b80bba3b5d2?q=80&w=2000&auto=format&fit=crop" alt="Rhein Panorama" class="w-full h-full object-cover" />
+                    <div class="absolute inset-0 bg-green-950/80 mix-blend-multiply z-10"></div> 
+                    <div class="absolute inset-0 z-20 flex items-center justify-center opacity-40 pointer-events-none">
+                        <span class="text-white text-3xl font-bold uppercase tracking-widest border-2 border-white/50 p-6 rounded-lg backdrop-blur-sm text-center">
+                            
+                        </span>
+                    </div>
+                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30 w-full">
+                    <div class="inline-block mb-6 px-5 py-2 bg-green-600/40 text-green-50 border border-green-400/50 rounded-full font-bold text-sm tracking-widest shadow-lg backdrop-blur-md uppercase">
+                        Jubiläumsjahr 2026: 50 Jahre SRV
+                    </div>
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-6 drop-shadow-xl">
+                        Rudersport aus <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-200">Tradition.</span>
+                    </h1>
+                    <p class="mt-6 text-xl md:text-2xl text-green-50/90 max-w-3xl mx-auto mb-10 leading-relaxed drop-shadow-md">
+                        Willkommen beim Schüler-Ruder-Verein am Ernst-Kalkuhl-Gymnasium. Seit 1976 rudern wir selbstständig auf dem Rhein und auf vielen Gewässern Deutschlands.
+                    </p>
+                    <div class="flex justify-center gap-5 flex-wrap">
+                        <button onclick="navigateTo('aktuelles')" class="bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-green-500 transition-all shadow-xl hover:shadow-2xl flex items-center transform hover:-translate-y-1">
+                            Aktuelles <i data-lucide="chevron-right" class="ml-2 h-5 w-5"></i>
+                        </button>
+                        <button onclick="navigateTo('about')" class="bg-white/10 backdrop-blur-sm text-white border-2 border-white/80 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all shadow-lg flex items-center transform hover:-translate-y-1">
+                            Über unseren Verein
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aktuelles Section -->
+        <section id="aktuelles" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-green-900 mb-4 flex items-center justify-center">
+                        <i data-lucide="message-square" class="mr-3 h-8 w-8 text-green-600"></i> Aktuelles
+                    </h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                        Neuigkeiten, anstehende Termine und Infos aus dem Verein.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Main Feed -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Feed Item 1 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Jubiläumsjahr 2026: 50 Jahre SRV!</h3>
+                                <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">Frühjahr 2026</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">In diesem Jahr feiern wir unser 50-jähriges Bestehen! Tragt euch den 1. Mai schon einmal fest in den Kalender ein – genauere Infos zur geplanten Feier im Bootshaus folgen bald.</p>
+                            <div class="w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 overflow-hidden">
+                                <div class="text-center text-gray-500 font-medium px-4">
+                                    <i data-lucide="image" class="h-10 w-10 mx-auto mb-3 text-gray-400"></i>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Feed Item 2 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Anfängerwerbung & Anfängerwochenende</h3>
+                                <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">März 2026</span>
+                            </div>
+                            <p class="text-gray-600">Die Anfängerwerbung in den 6. Klassen ist in vollem Gange. Wer Lust hat, den Rudersport auszuprobieren, kann sich am 23. März für das Anfängerwochenende am Rheinauensee anmelden. Wir freuen uns auf euch!</p>
+                        </div>
+
+                        <!-- Feed Item 3 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Laufende Winteraktivitäten</h3>
+                                <span class="text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">Winter/Frühjahr 2026</span>
+                            </div>
+                            <p class="text-gray-600">Unsere winterlichen Bootsarbeiten laufen auf Hochtouren, damit die Flotte rechtzeitig zur neuen Saison wieder in Topform ist. Denkt bitte auch an den theoretischen Steuermannskurs in Kooperation mit dem ARC.</p>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="space-y-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                                <i data-lucide="book-open" class="mr-2 h-5 w-5 text-green-600"></i> SRV-Aktuell Magazin
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4">Einmal im Jahr erscheint unsere Vereinspublikation mit Fahrtenberichten und Neuigkeiten. Hier könnt ihr die letzten Ausgaben herunterladen:</p>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="flex items-center text-green-700 hover:text-green-900 font-medium group text-sm">
+                                        <i data-lucide="download" class="mr-2 h-4 w-4 text-gray-400 group-hover:text-green-600"></i> Ausgabe 2024
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="flex items-center text-green-700 hover:text-green-900 font-medium group text-sm">
+                                        <i data-lucide="download" class="mr-2 h-4 w-4 text-gray-400 group-hover:text-green-600"></i> Ausgabe 2023
+                                    </a>
+                                </li>
+                                <li class="pt-2 mt-2 border-t border-gray-100">
+                                    <a href="https://kalkuhl.de/vereine/ruderverein/" target="_blank" class="text-xs text-gray-500 hover:text-green-700 flex items-center">
+                                        Alle Ausgaben auf Kalkuhl.de ansehen <i data-lucide="external-link" class="ml-1 h-3 w-3"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-green-900 mb-6 flex items-center">
+                            <i data-lucide="users" class="mr-4 text-green-600 h-8 w-8"></i> Vereinsgeschichte
+                        </h2>
+                        <div class="text-lg text-gray-600 space-y-4">
+                            <p>Der Rudersport hat eine lange Tradition am Ernst Kalkuhl Gymnasium (EKG). Schon 1922 wurde der „Ruderclub Kalkuhl“ gegründet. Seit dem 1. Mai 1976 wird diese Tradition mit dem Schüler-Ruder-Verein (SRV) fortgesetzt.</p>
+                            <p>Im SRV haben Jugendliche die Chance, nicht nur einen attraktiven Sport kennenzulernen, sondern erfahren auch kameradschaftliches Verhalten. Die Schüler wählen aus ihrer Mitte einen Vorstand, der <strong>vollkommen selbständig</strong> das Vereinsleben organisiert. Lediglich beratend wirkt der Protektor, ein Sportlehrer der Schule.</p>
+                            <p>Mit ca. 45 Mitgliedern widmen wir uns vor allem dem Breitensport und Wanderfahrten auf dem Rhein und auf vielen anderen Flüssen Deutschlands (wie z.B. bei der alljährlichen Lahnfahrt an Himmelfahrt).</p>
+                        </div>
+                    </div>
+                    <div class="relative h-full flex items-center">
+                        <div class="bg-gradient-to-br from-green-800 to-green-950 rounded-3xl p-8 w-full flex flex-col items-center justify-center min-h-[350px] shadow-2xl border border-green-700">
+                            <svg viewBox="0 0 400 300" class="h-48 w-64 mb-6 drop-shadow-2xl" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="100" y1="240" x2="280" y2="60" stroke="#111" stroke-width="12" stroke-linecap="round" />
+                                <path d="M 275 65 L 305 20 Q 330 30 335 55 L 290 95 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+                                <line x1="300" y1="240" x2="120" y2="60" stroke="#111" stroke-width="12" stroke-linecap="round" />
+                                <path d="M 125 65 L 95 20 Q 70 30 65 55 L 110 95 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+                                <text x="200" y="170" font-family="'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif" font-size="130" fill="#ffffff" text-anchor="middle">SRV</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-3xl p-8 md:p-12 border border-gray-200">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="order-2 lg:order-1 relative">
+                            <div class="w-full h-64 md:h-80 bg-white rounded-2xl flex items-center justify-center border border-gray-300 shadow-sm overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')]">
+                                <div class="text-center p-6 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-200 shadow-sm mx-4">
+                                    <i data-lucide="home" class="h-12 w-12 mx-auto mb-3 text-green-700"></i>
+                                    <p class="font-bold text-gray-800 text-lg"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-1 lg:order-2">
+                            <h2 class="text-3xl font-extrabold text-green-900 mb-6">Unser Bootshaus</h2>
+                            <p class="text-lg text-gray-600 mb-4 leading-relaxed">Der zentrale Dreh- und Angelpunkt unseres Vereinslebens ist das Bootshaus in der Dahlmannstraße (Bonn-Gronau), in direkter Lage am Stresemannufer des Rheins.</p>
+                            <p class="text-lg text-gray-600 mb-6 leading-relaxed">Wir teilen uns das Gebäude partnerschaftlich mit dem Akademischen Ruderclub (ARC) Rhenus Bonn. Hier lagern wir unsere Boote, führen Reparaturen durch und starten unsere regelmäßigen Trainingseinheiten auf dem Wasser.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="anchor" class="h-6 w-6 text-green-600 mr-2 flex-shrink-0 mt-0.5"></i> <span class="text-gray-700">Direkter Zugang zum Rhein.</span></li>
+                                <li class="flex items-start"><i data-lucide="wrench" class="h-6 w-6 text-green-600 mr-2 flex-shrink-0 mt-0.5"></i> <span class="text-gray-700">Werkstatt für unsere gemeinsamen winterlichen Bootsarbeiten.</span></li>
+                                <li class="flex items-start"><i data-lucide="users" class="h-6 w-6 text-green-600 mr-2 flex-shrink-0 mt-0.5"></i> <span class="text-gray-700">Gemeinsame Nutzung und Pflege mit dem ARC Rhenus.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vorstand Section -->
+        <section id="vorstand" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <span class="text-green-600 font-bold tracking-wider uppercase text-sm">Saison 2025/2026</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mt-2 mb-4 text-green-900">Der Vorstand</h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Unser Verein wird maßgeblich von den Schülerinnen und Schülern selbst verwaltet. Unterstützt werden sie dabei vom Protektor der Schule.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <!-- Präsident -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center ring-2 ring-green-600 relative overflow-hidden">
+                        <div class="absolute top-0 w-full h-1 bg-green-600"></div>
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="award" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Präsident</h3>
+                        <p class="text-green-700 font-bold mb-3">Florian Kurth</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Repräsentiert den Verein und koordiniert die Vorstandsarbeit.</p>
+                    </div>
+                    <!-- Ruderwarte -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="navigation" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Ruderwarte</h3>
+                        <p class="text-green-700 font-bold mb-3">Florian Kurth & Julian Klein</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Organisieren den Ruderbetrieb und die Einteilung der Boote.</p>
+                    </div>
+                    <!-- Wanderwarte -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="map" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Wanderwarte</h3>
+                        <p class="text-green-700 font-bold mb-3">Jannik Breuer & Martha Herden</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Planen die Lahnwanderfahrt, Herbstwanderfahrt und Regatten.</p>
+                    </div>
+                    <!-- Bootswarte -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="wrench" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Bootswarte</h3>
+                        <p class="text-green-700 font-bold mb-3">Henri Ewert, Justin Nack & Tobias Kuß</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Zuständig für die Instandhaltung unserer Boote.</p>
+                    </div>
+                    <!-- Schriftwartinnen -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="pen-tool" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Schriftwartinnen</h3>
+                        <p class="text-green-700 font-bold mb-3">Martha Herden & Lilly Keunecke</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Kümmern sich um die Protokolle und Öffentlichkeitsarbeit.</p>
+                    </div>
+                    <!-- Kassenwartin -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="piggy-bank" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Kassenwartin</h3>
+                        <p class="text-green-700 font-bold mb-3">Isabelle Hölter</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Verwaltet die Finanzen, Beiträge und Zuschüsse des Vereins.</p>
+                    </div>
+                    <!-- Protektor -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center sm:col-span-2 lg:col-span-3 lg:w-1/3 lg:mx-auto">
+                        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 transform rotate-3 shadow-sm border border-gray-100">
+                            <i data-lucide="shield" class="h-8 w-8 text-green-700"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Protektor</h3>
+                        <p class="text-green-700 font-bold mb-3">Christopher Dahm</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Sportlehrer der Schule, berät den Vorstand und hält die Verbindung zum Kollegium.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flotte Section -->
+        <section id="fleet" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-green-900">Unsere Flotte</h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">In unserem Bootshaus beherbergen wir eine vielfältige Auswahl an Ruderbooten, von robusten Gig-Booten bis zu unseren schnellen Einer-Skiffs.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-green-800 rounded-2xl p-8 border border-green-700 shadow-xl relative overflow-hidden text-white">
+                        <div class="absolute top-0 right-0 bg-yellow-500 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg shadow-sm">Historisch</div>
+                        <h3 class="text-2xl font-bold mb-3 mt-2">Die "Oberkassel"</h3>
+                        <p class="text-green-200 text-sm mb-6 leading-relaxed">Unser erstes eigenes Boot, das 1978 angeschafft wurde. Ein klassisches Gig-Boot und bis heute fahrbereit!</p>
+                    </div>
+                    <div class="bg-green-800 rounded-2xl p-8 border border-green-700 shadow-lg flex flex-col justify-between text-white">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3">Gig-Boote</h3>
+                            <p class="text-green-200 text-sm mb-6 leading-relaxed">Robust und sicher. Perfekt für die Ausbildung, Wanderfahrten auf deutschen Flüssen und Touren auf dem Rhein.</p>
+                        </div>
+                        <div class="text-green-400 font-bold text-sm bg-green-950/50 inline-block px-4 py-2 rounded self-start">2x / 3x / 4x</div>
+                    </div>
+                    <div class="bg-green-800 rounded-2xl p-8 border border-green-700 shadow-lg flex flex-col justify-between text-white">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3">Skiffs & Einer</h3>
+                            <p class="text-green-200 text-sm mb-6 leading-relaxed">Für individuelle Technikschulung und Skiff-Wochenenden am südlichen Rheinauensee.</p>
+                        </div>
+                        <div class="text-green-400 font-bold text-sm bg-green-950/50 inline-block px-4 py-2 rounded self-start">1x</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-extrabold text-green-900 flex items-center justify-center mb-4">
+                        <i data-lucide="calendar-days" class="mr-3 h-8 w-8 text-green-600"></i> SRV Termine 2026
+                    </h2>
+                    <p class="text-gray-500 max-w-xl mx-auto">Alle Angaben unter Vorbehalt. Änderungen werden über die üblichen Kanäle kommuniziert.</p>
+                </div>
+                
+                <div id="timeline" class="relative border-l-4 border-green-100 ml-4 md:ml-6 space-y-10">
+                    <!-- Events will be populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+                    <div>
+                        <span class="text-green-600 font-bold tracking-wider uppercase text-sm">Mitglied werden</span>
+                        <h2 class="text-3xl font-extrabold text-green-900 mt-2 mb-6">Kontakt zum SRV</h2>
+                        <p class="text-gray-600 mb-8 text-lg">Du bist am Ernst-Kalkuhl-Gymnasium und hast Lust aufs Rudern? Komm zu unserer Anfängerwerbung, melde dich für das Anfängerwochenende an oder sprich einfach unseren Protektor an!</p>
+                        
+                        <div class="space-y-6 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-3 rounded-full mr-5 mt-1 shrink-0"><i data-lucide="map-pin" class="h-6 w-6 text-green-700"></i></div>
+                                <div>
+                                    <p class="font-bold text-lg text-gray-900 mb-1">Ernst-Kalkuhl-Gymnasium</p>
+                                    <p class="text-gray-600">Königswinterer Str. 534<br/>53227 Bonn (Oberkassel)</p>
+                                </div>
+                            </div>
+                            <div class="w-full h-px bg-gray-100"></div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-3 rounded-full mr-5 mt-1 shrink-0"><i data-lucide="home" class="h-6 w-6 text-green-700"></i></div>
+                                <div>
+                                    <p class="font-bold text-lg text-gray-900 mb-1">Unser Bootshaus</p>
+                                    <p class="text-gray-600">Dahlmannstraße 1<br/>53113 Bonn (Gronau)</p>
+                                </div>
+                            </div>
+                            <div class="w-full h-px bg-gray-100"></div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-3 rounded-full mr-5 mt-1 shrink-0"><i data-lucide="mail" class="h-6 w-6 text-green-700"></i></div>
+                                <div>
+                                    <p class="font-bold text-lg text-gray-900 mb-1">E-Mail Kontakt</p>
+                                    <p class="text-gray-600 mb-1"><a href="mailto:SRV@kalkuhl.de" class="text-green-700 font-semibold hover:underline">SRV@kalkuhl.de</a> <span class="text-sm ml-2">(Vorstand)</span></p>
+                                    <p class="text-gray-600"><a href="mailto:dahm@kalkuhl.de" class="text-green-700 font-semibold hover:underline">dahm@kalkuhl.de</a> <span class="text-sm ml-2">(Herr Dahm, Protektor)</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl relative">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-green-700 rounded-t-2xl"></div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Nachricht schreiben</h3>
+                        <form class="space-y-5" onsubmit="event.preventDefault(); alert('Danke! Dies ist eine Demoversion. Echte E-Mails bitte an SRV@kalkuhl.de senden.');">
+                            <div>
+                                <label for="name" class="block text-sm font-bold text-gray-700 mb-1">Name</label>
+                                <input type="text" id="name" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 p-3 bg-gray-50 border" placeholder="Dein Name" />
+                            </div>
+                            <div>
+                                <label for="klasse" class="block text-sm font-bold text-gray-700 mb-1">Klasse / Jahrgangsstufe</label>
+                                <input type="text" id="klasse" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 p-3 bg-gray-50 border" placeholder="z.B. 6a oder EF" />
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-bold text-gray-700 mb-1">Nachricht</label>
+                                <textarea id="message" rows="4" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600 p-3 bg-gray-50 border" placeholder="Ich interessiere mich für das Anfängerwochenende..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-green-800 text-white px-4 py-3.5 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors shadow-md">Nachricht absenden</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERNER BEREICH (Cloud) -->
+        <section id="intern" class="page-section animate-fadeIn py-12 md:py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-green-50 rounded-3xl p-8 md:p-12 border border-green-200 shadow-inner">
+                    <div class="text-center mb-10">
+                        <div class="w-20 h-20 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i data-lucide="lock-keyhole-open" class="h-10 w-10"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-green-900 mb-2">Interner Bereich</h2>
+                        <p class="text-green-700 font-medium">Herzlich Willkommen! Dieser Bereich ist nur für Mitglieder.</p>
+                    </div>
+
+                    <!-- Cloud Buttons -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- Button 1: Foto Cloud -->
+                        <a href="#" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-green-400 transition-all group flex flex-col items-center text-center">
+                            <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="image" class="h-7 w-7"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-1">Bilder-Cloud</h3>
+                            <p class="text-sm text-gray-500">Fotos von Wanderfahrten, Regatten und dem Bootshaus hoch- und runterladen.</p>
+                        </a>
+
+                        <!-- Button 2: Dokumente & Protokolle -->
+                        <a href="#" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-green-400 transition-all group flex flex-col items-center text-center">
+                            <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="folder-open" class="h-7 w-7"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-1">Dokumente</h3>
+                            <p class="text-sm text-gray-500">Protokolle der JHV, Ruderordnungen und wichtige Vereins-Dokumente.</p>
+                        </a>
+
+                        <!-- Button 3: Vorstands-Cloud -->
+                        <a href="#" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-green-400 transition-all group flex flex-col items-center text-center sm:col-span-2">
+                            <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="cloud" class="h-7 w-7"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-1">Vorstands-Laufwerk</h3>
+                            <p class="text-sm text-gray-500">Nur für Vorstandsmitglieder (Weiteres Passwort erforderlich).</p>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-green-950 text-green-300 py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center border-b border-green-800/50 pb-8 mb-8">
+                <div class="flex items-center mb-6 md:mb-0 cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-24 h-16 mr-4 opacity-80 bg-green-900 rounded-lg flex items-center justify-center border border-green-800">
+                        <svg viewBox="0 0 400 300" class="w-full h-full p-1" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="100" y1="240" x2="280" y2="60" stroke="#111" stroke-width="12" stroke-linecap="round" />
+                            <path d="M 275 65 L 305 20 Q 330 30 335 55 L 290 95 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+                            <line x1="300" y1="240" x2="120" y2="60" stroke="#111" stroke-width="12" stroke-linecap="round" />
+                            <path d="M 125 65 L 95 20 Q 70 30 65 55 L 110 95 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+                            <text x="200" y="170" font-family="'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif" font-size="130" fill="#ffffff" text-anchor="middle">SRV</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-white text-xl block leading-tight">SRV am EKG</span>
+                        <span class="text-sm text-green-500">Gegründet 1976</span>
+                    </div>
+                </div>
+                <div class="flex space-x-6 font-medium text-sm md:text-base">
+                    <button onclick="navigateTo('about')" class="hover:text-white transition-colors">Bootshaus</button>
+                    <button onclick="navigateTo('events')" class="hover:text-white transition-colors">Termine</button>
+                    <button onclick="navigateTo('contact')" class="hover:text-white transition-colors">Kontakt</button>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+                <span class="text-green-500 text-center md:text-left">&copy; <span id="year"></span> Schüler-Ruder-Verein am Ernst-Kalkuhl-Gymnasium Bonn.</span>
+                <div class="mt-6 md:mt-0 space-x-6 flex items-center">
+                    <a href="https://kalkuhl.de/" target="_blank" class="hover:text-white transition-colors flex items-center">EKG Homepage <i data-lucide="external-link" class="ml-1 h-3 w-3"></i></a>
+                    <a href="https://kalkuhl.de/impressum/" target="_blank" class="hover:text-white transition-colors">Impressum</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logik -->
+    <script>
+        // Init Icons
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Intern-Bereich Passwort Status
+        let isUnlocked = false;
+
+        // Menü Toggeln
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // Passwort Check für den internen Bereich
+        function checkPasswordAndNavigate() {
+            if (!isUnlocked) {
+                const pwd = prompt("Bitte Vereins-Passwort eingeben:");
+                if (pwd === "sauregurke") {
+                    isUnlocked = true;
+                    alert("Passwort korrekt! Der interne Bereich ist jetzt freigeschaltet.");
+                    navigateTo('intern');
+                } else if (pwd !== null) { // null bedeutet Abbrechen gedrückt
+                    alert("Falsches Passwort!");
+                }
+            } else {
+                // Wenn schon entsperrt, einfach direkt hin navigieren
+                navigateTo('intern');
+            }
+        }
+
+        // Seiten Navigation (Single Page App Verhalten)
+        function navigateTo(pageId) {
+            // Verstecke alle Sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Zeige Ziel-Section
+            document.getElementById(pageId).classList.add('active');
+
+            // Update Desktop Nav Links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const target = link.getAttribute('data-target');
+                
+                if (target === pageId) {
+                    if (target === 'intern') {
+                        link.className = 'nav-link px-3 py-2 rounded-md transition-colors font-bold bg-green-900 text-green-200 shadow-inner flex items-center';
+                    } else {
+                        link.className = 'nav-link px-3 py-2 rounded-md transition-colors font-medium bg-green-900 text-white shadow-inner';
+                    }
+                } else {
+                    if (target === 'intern') {
+                        link.className = 'nav-link px-3 py-2 rounded-md transition-colors font-bold text-green-200 hover:bg-green-700 hover:text-white flex items-center';
+                    } else {
+                        link.className = 'nav-link px-3 py-2 rounded-md transition-colors font-medium hover:bg-green-700 hover:text-white';
+                    }
+                }
+            });
+
+            // Update Mobile Nav Links
+            document.querySelectorAll('.nav-link-mobile').forEach(link => {
+                const target = link.getAttribute('data-target');
+                
+                if(target === pageId) {
+                     if (target === 'intern') {
+                        link.className = 'nav-link-mobile w-full text-left px-4 py-3 rounded-md text-base font-bold transition-colors bg-green-900 text-green-200 border-l-4 border-green-200 flex items-center';
+                     } else {
+                        link.className = 'nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors bg-green-900 text-white border-l-4 border-white';
+                     }
+                } else {
+                     if (target === 'intern') {
+                        link.className = 'nav-link-mobile w-full text-left px-4 py-3 rounded-md text-base font-bold transition-colors text-green-200 hover:bg-green-700 hover:text-white flex items-center';
+                     } else {
+                        link.className = 'nav-link-mobile block w-full text-left px-4 py-3 rounded-md text-base font-medium transition-colors hover:bg-green-700 text-green-100';
+                     }
+                }
+            });
+
+            // Schließe Mobile Menu falls offen
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('menu-icon').setAttribute('data-lucide', 'menu');
+            lucide.createIcons();
+
+            // Scrolle weich nach ganz oben
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Generiere die Termine (um HTML kompakt zu halten)
+        const termine = [
+            { date: "Ab sofort", title: "Winteraktivitäten", desc: "Bootsarbeiten, Steuermannskurs Theorie (mit ARC), DLRG und weitere Termine nach Ankündigung." },
+            { date: "16.03. - 20.03.", title: "Anfängerwerbung", desc: "Werbung für den SRV in den 6. Klassen." },
+            { date: "Mo, 23.03.", title: "Anmeldung Anfängerwochenende", desc: "Interessenten aus höheren Klassen können bei freien Kapazitäten hinzukommen." },
+            { date: "Fr, 17.04. - So, 19.04.", title: "Anfängerwochenende", desc: "Auf dem südlichen Rheinauensee. Grillen, Sonne und Booteputzen am Sonntag." },
+            { date: "Ab 06. April", title: "Ruderausbildung", desc: "Mittwochs und Freitags. Elternabend folgt." },
+            { date: "Fr, 01.05.", title: "50 Jahre SRV!", desc: "Großes Jubiläum! Feier im Bootshaus, genaue Infos folgen." },
+            { date: "Sa, 02.05.", title: "Eurega", desc: "Langstreckenregatta Neuwied-Bonn (45km) oder St. Goar-Bonn (100km)." },
+            { date: "13.05. - 17.05.", title: "Lahnwanderfahrt", desc: "Über Himmelfahrt. Von Diez nach Bonn (Zelte & Bootshaus Neuwied)." },
+            { date: "So, 24.05.", title: "Vogalonga (Venedig)", desc: "In und um Venedig (Ausnahme-Auslandstour). Teilnahme ab 16." },
+            { date: "Sommer", title: "Regatten & Wanderfahrt", desc: "Schülerregatta, Jtfo und Sommerwanderfahrt 2026." },
+            { date: "30.09. - 04.10.", title: "Herbstwanderfahrt", desc: "Termin 'Rund um den 3. Oktober'." },
+            { date: "So, 01.11.", title: "Allerheiligenfahrt", desc: "30km Tagestour von Bonn nach Köln." },
+            { date: "Fr, 27.11.", title: "Jahreshauptversammlung", desc: "Jahreshauptversammlung des Vereins." }
+        ];
+
+        const timelineContainer = document.getElementById('timeline');
+        let timelineHTML = '';
+        termine.forEach(termin => {
+            timelineHTML += `
+                <div class="relative pl-6 md:pl-10">
+                    <div class="absolute -left-[10px] top-1 h-4 w-4 rounded-full bg-green-600 ring-4 ring-white shadow-sm"></div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
+                            <h3 class="text-xl font-bold text-gray-900">${termin.title}</h3>
+                            <span class="inline-block bg-green-50 text-green-800 font-bold px-4 py-1.5 rounded-full text-sm mt-2 md:mt-0 whitespace-nowrap border border-green-100">${termin.date}</span>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed">${termin.desc}</p>
+                    </div>
+                </div>
+            `;
+        });
+        timelineContainer.innerHTML = timelineHTML;
+
+    </script>
+</body>
+</html>
+
+
